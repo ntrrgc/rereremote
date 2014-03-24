@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html ng-app="rereremote" ng-controller="RootCtrl">
+<head>
+  <meta charset="UTF-8">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/css/app.css">
+  <link rel="icon" type="image/png" href="/static/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <script src="/static/js/angular.min.js"></script>
+  <script src="/static/js/app.js"></script>
+  <title>Re Re Remote</title>
+</head>
+<body>
+  <h1>Re Re Remote</h1>
+  <div ng-switch on="page">
+    <div id="auth_page" class="page" ng-switch-when="auth"
+      ng-controller="LoginCtrl">
+      <form action="" class="form" ng-submit="connect()">
+        <div ng-show="alert.show" ng-class="'alert-' + alert.class" class="alert">
+          {{ alert.message }}
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="id_password">Password</label>
+          <input class="form-control" id="id_password" type="password"
+          ng-model="password">
+        </div>
+        <div class="form-group checkbox"><label>
+          <input type="checkbox" ng-model="remember"> Remember this password
+        </label></div>
+        <div class="form-group">
+          <input type="submit" ng-disabled="connecting" class="btn btn-primary"
+          ng-value="connecting ? 'Connecting...' : 'Connect'"></button>
+        </div>
+      </form>
+    </div>
+
+    <div id="control_page" class="page" ng-switch-when="control"
+      ng-controller="ControlCtrl">
+      <div ng-show="alert.show" ng-class="'alert-' + alert.class" class="alert">
+        {{ alert.message }}
+        <button ng-click="reconnect()" class="btn btn-default pull-right"
+          style="margin-top: -7px">Reconnect</button>
+      </div>
+      <div id="main_buttons">
+        <button type="button" class="btn btn-default btn-lg"
+          ng-click="vibrate(); previous()" ng-disabled="disconnected">
+          <span class="glyphicon glyphicon-arrow-left"></span><br/>Previous
+        </button>
+        <button type="button" class="btn btn-default btn-lg"
+          ng-click="vibrate(); next()" ng-disabled="disconnected">
+          <span class="glyphicon glyphicon-arrow-right"></span><br/>Next
+        </button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

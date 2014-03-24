@@ -1,0 +1,15 @@
+
+#main_buttons .btn {
+    width: 49%;
+    height: 150px;
+    background-color: #FFFFFF;
+    box-shadow: none;
+    outline: none;
+}
+
+body {
+    background: #2977B9;
+    color: white;
+    font-family: "Open Sans";
+    font-weight: 300;
+}
