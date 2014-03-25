@@ -57,6 +57,10 @@ def print_server_running(address, port):
               "\n")
 
 def main():
+    # Always use line buffer
+    sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', 1)
+    sys.stderr = os.fdopen(sys.stderr.fileno(), 'w', 1)
+
     args = parser.parse_args()
 
     if args.key is None:

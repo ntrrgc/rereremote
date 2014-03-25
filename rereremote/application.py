@@ -1,8 +1,19 @@
 import tornado.web
-import os.path
+import sys
+import os
 from rereremote import control
 
-static_path = os.path.join(os.path.dirname(__file__), 'static')
+if getattr(sys, 'frozen', False):
+    # The application is frozen (e.g. cx_freeze)
+    # Static files are in the directory of the executable.
+    data_dir = os.path.dirname(sys.executable)
+else:
+    # The application is running in an standalone interpreter, search within
+    # the package.
+    data_dir = os.path.dirname(__file__)
+
+static_path = os.path.join(data_dir, 'static')
+
 
 class IndexHandler(tornado.web.RequestHandler):
     def get(self):

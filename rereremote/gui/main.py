@@ -1,7 +1,9 @@
 import sys
-from .qt import QtWidgets
-from .serverwidget import ServerWidget
-from .resources import resources_rc
+
+# cx_freeze requires absolute imports in order to work
+from rereremote.gui.qt import QtWidgets
+from rereremote.gui.serverwidget import ServerWidget
+from rereremote.gui.resources import resources_rc
 
 # PyQt5 may crash if qApp goes out of scope, so make it global
 qApp = None

@@ -1,11 +1,37 @@
 import netifaces
 from .qt import QtGui, QtCore, QtWidgets
+import os
 import sys
 
 if sys.version_info < (3,):
     ustr = unicode
 else:
     ustr = str
+
+
+def get_subprocess_info():
+    """
+    Returns a tuple with the executable in which the ReReRemote server will be
+    run and a list of arguments that should be prepended when called.
+    """
+
+    # Running in cx_freeze?
+    if getattr(sys, 'frozen', False):
+        # Return the server executable in the same path. No arguments needed.
+        dirname = os.path.dirname(sys.executable)
+        executable = os.path.join(dirname, 'rereremote')
+        args = []
+
+        # Windows? Add .exe suffix
+        if os.name == 'nt':
+            executable += '.exe'
+    else:
+        # Return the same Python interpreter, with the server package specified
+        # as an argument.
+        executable = sys.executable
+        args = ['-m', 'rereremote.main']
+
+    return executable, args
 
 
 class ServerWidget(QtWidgets.QDialog):
@@ -91,11 +117,17 @@ class ServerWidget(QtWidgets.QDialog):
         self.process.readyReadStandardError.connect(self.readStderr)
         self.process.finished.connect(self.processFinished)
 
-        args = ['-u', '-m', 'rereremote.main',
-                '-a', address,
-                '-p', port]
-        self.process.start(sys.executable, args)
-        self.setEnabledStates(True)
+        executable, args = get_subprocess_info()
+        args += ['-a', address, '-p', port]
+        self.process.start(executable, args)
+        started = self.process.waitForStarted()
+
+        if not started:
+            QtWidgets.QMessageBox.warning(self, "Process failed",
+                    "%s: %s" % 
+                    (executable, self.process.errorString()))
+        else:
+            self.setEnabledStates(True)
 
     def writeToLog(self, text):
         self.txtLog.moveCursor(QtGui.QTextCursor.End)

@@ -31,3 +31,8 @@ elif qt_package == 'PySide':
     # PySide does not support Qt5
     from PySide import QtGui, QtCore
     QtWidgets = QtGui
+else:
+    print("PY_QT_PACKAGE environment variable has an invalid value: %s" % 
+          qt_package, file=sys.stderr)
+    print("Allowed values are: PyQt5, PyQt4, PySide, guess.", file=sys.stderr)
+    sys.exit(1)
