@@ -92,7 +92,7 @@ class ServerWidget(QtGui.QDialog):
         self.process.finished.connect(self.processFinished)
 
         args = ['-u', '-m', 'rereremote.main',
-                '-a', address.toString(),
+                '-a', address,
                 '-p', port]
         self.process.start(sys.executable, args)
         self.setEnabledStates(True)
