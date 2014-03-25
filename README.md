@@ -8,7 +8,9 @@ It has been tested on Windows and Linux.
 Screenshots
 -----------
 
-![GUI](screenshots/gui.png) ![Mobile UI: Login](screenshots/mobile_ui1.png) ![Mobile UI: Control](screenshots/mobile_ui2.png)
+![GUI](screenshots/gui.png)
+
+![Mobile UI: Login](screenshots/mobile_ui1.png) &nbsp; ![Mobile UI: Control](screenshots/mobile_ui2.png)
 
 Requirements
 ------------
