@@ -1,5 +1,5 @@
 import netifaces
-from .qt import QtGui, QtCore
+from .qt import QtGui, QtCore, QtWidgets
 import sys
 
 if sys.version_info < (3,):
@@ -8,7 +8,7 @@ else:
     ustr = str
 
 
-class ServerWidget(QtGui.QDialog):
+class ServerWidget(QtWidgets.QDialog):
     def __init__(self, parent=None):
         super(ServerWidget, self).__init__(parent)
         self.initGui()
@@ -18,46 +18,46 @@ class ServerWidget(QtGui.QDialog):
         self.setWindowTitle("Re Re Remote")
         self.setWindowIcon(QtGui.QIcon(":/icon.png"))
 
-        self.mainLayout = QtGui.QVBoxLayout(self)
+        self.mainLayout = QtWidgets.QVBoxLayout(self)
 
-        self.inputs = QtGui.QFormLayout()
+        self.inputs = QtWidgets.QFormLayout()
         self.mainLayout.addLayout(self.inputs)
 
-        self.txtPassword = QtGui.QLineEdit()
-        self.txtPassword.setEchoMode(QtGui.QLineEdit.Password)
+        self.txtPassword = QtWidgets.QLineEdit()
+        self.txtPassword.setEchoMode(QtWidgets.QLineEdit.Password)
         self.inputs.addRow("&Password", self.txtPassword)
 
-        self.txtPasswordCheck = QtGui.QLineEdit()
-        self.txtPasswordCheck.setEchoMode(QtGui.QLineEdit.Password)
+        self.txtPasswordCheck = QtWidgets.QLineEdit()
+        self.txtPasswordCheck.setEchoMode(QtWidgets.QLineEdit.Password)
         self.inputs.addRow("Password (&check, optional)", self.txtPasswordCheck)
 
         self.cmbInterfaces = self.initInterfaces()
         self.inputs.addRow("Listen on &interface", self.cmbInterfaces)
 
-        self.txtPort = QtGui.QLineEdit()
+        self.txtPort = QtWidgets.QLineEdit()
         self.txtPort.setValidator(QtGui.QIntValidator(1025, 65535))
         self.txtPort.setText("1234")
         self.inputs.addRow("Listen on &port", self.txtPort)
 
-        self.buttons = QtGui.QHBoxLayout()
+        self.buttons = QtWidgets.QHBoxLayout()
         self.mainLayout.addLayout(self.buttons)
         self.buttons.addStretch()
         buttonWidth = 80
 
-        self.btnStart = QtGui.QPushButton("&Start")
+        self.btnStart = QtWidgets.QPushButton("&Start")
         self.btnStart.setMinimumWidth(buttonWidth)
         self.btnStart.clicked.connect(self.start)
         self.btnStart.setDefault(True)
         self.buttons.addWidget(self.btnStart)
 
-        self.btnStop = QtGui.QPushButton("St&op")
+        self.btnStop = QtWidgets.QPushButton("St&op")
         self.btnStop.setMinimumWidth(buttonWidth)
         self.btnStop.clicked.connect(self.stop)
         self.buttons.addWidget(self.btnStop)
 
         self.buttons.addStretch()
 
-        self.txtLog = QtGui.QTextEdit()
+        self.txtLog = QtWidgets.QTextEdit()
         self.txtLog.setReadOnly(True)
         self.mainLayout.addWidget(self.txtLog)
 
@@ -71,7 +71,7 @@ class ServerWidget(QtGui.QDialog):
         port = self.txtPort.text()
 
         if password_check != "" and password != password_check:
-            QtGui.QMessageBox.warning(self, "Passwords don't mach",
+            QtWidgets.QMessageBox.warning(self, "Passwords don't mach",
                   "You have provided a check password, but it does not match " +
                   "with the other password field.")
             self.txtPassword.setFocus()
@@ -115,7 +115,7 @@ class ServerWidget(QtGui.QDialog):
             self.process.kill()
             self.process = None
 
-    def processFinished(self, exitCode, exitStatus):
+    def processFinished(self, exitCode):
         self.writeToLog("\nServer has been stopped.")
         self.setEnabledStates(False)
 
@@ -129,7 +129,7 @@ class ServerWidget(QtGui.QDialog):
         self.btnStop.setEnabled(serverRunning)
 
     def initInterfaces(self):
-        cmbInterfaces = QtGui.QComboBox()
+        cmbInterfaces = QtWidgets.QComboBox()
 
         cmbInterfaces.addItem("Listen on all interfaces", "0.0.0.0")
 
@@ -153,6 +153,6 @@ class ServerWidget(QtGui.QDialog):
 
     def center_on_screen(self):
         mouse_pos = QtGui.QCursor.pos()
-        screen_dimensions = QtGui.QDesktopWidget().screenGeometry(mouse_pos)
+        screen_dimensions = QtWidgets.QDesktopWidget().screenGeometry(mouse_pos)
 
         self.move(screen_dimensions.center() - self.rect().center())

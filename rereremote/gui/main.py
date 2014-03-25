@@ -1,17 +1,19 @@
 import sys
-from .qt import QtCore, QtGui
+from .qt import QtWidgets
 from .serverwidget import ServerWidget
 from .resources import resources_rc
 
+# PyQt5 may crash if qApp goes out of scope, so make it global
+qApp = None
 
 def main():
-    qapp = QtGui.QApplication(sys.argv)
+    global qApp
+    qApp = QtWidgets.QApplication(sys.argv)
 
     window = ServerWidget()
     window.show()
 
-    qapp.exec_()
-
+    qApp.exec_()
 
 if __name__ == "__main__":
     main()
