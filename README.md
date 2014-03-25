@@ -36,7 +36,7 @@ How to run on Linux
 How to run on Windows
 ---------------------
 
-1. Download `rereremote_windows.zip`. Uncompress.
+1. Download [ReReRemote_Windows.zip](https://github.com/ntrrgc/rereremote/releases/download/0.1/ReReRemote_Windows.zip). Uncompress.
 
 2. Run `rereremote_gui.exe`.
 
